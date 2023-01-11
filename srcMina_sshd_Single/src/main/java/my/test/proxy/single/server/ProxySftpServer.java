@@ -6,6 +6,7 @@ import org.apache.sshd.server.auth.AsyncAuthException;
 import org.apache.sshd.server.auth.password.PasswordAuthenticator;
 import org.apache.sshd.server.auth.password.PasswordChangeRequiredException;
 import org.apache.sshd.server.session.ServerSession;
+import org.apache.sshd.sftp.server.SftpSubsystemFactory;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -23,8 +24,7 @@ public class ProxySftpServer {
         sshd.setPort(2024);
 
         // SFTP server setting
-        SftpSubsystemFactoryExtend sftpSubsystemFactory = new SftpSubsystemFactoryExtend.Builder()
-//                .withFileSystemAccessor(new NativeFileSystemFactory())
+        SftpSubsystemFactory sftpSubsystemFactory = new SftpSubsystemFactory.Builder()
                 .withFileSystemAccessor(new SftpFileSystemAccessorExtend())
                 .build();
         sshd.setSubsystemFactories(Collections.singletonList(sftpSubsystemFactory));

@@ -60,7 +60,7 @@ public class DefaultSftpClientFactory extends AbstractLoggingBean implements Sft
         return client;
     }
 
-    protected DefaultSftpClient createDefaultSftpClient(
+    public DefaultSftpClient createDefaultSftpClient(
             ClientSession session, SftpVersionSelector selector, SftpErrorDataHandler errorDataHandler)
             throws IOException {
         return new DefaultSftpClient(session, selector, errorDataHandler);

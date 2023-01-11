@@ -176,6 +176,7 @@ public class DefaultSftpClient extends AbstractSftpClient {
      * @throws IOException If failed to receive incoming data
      */
     protected int data(byte[] buf, int start, int len) throws IOException {
+        System.out.println("■■■■■■■■■■■Client■■ data ■■■■■■■■■■■■■■■");
         Buffer incoming = new ByteArrayBuffer(buf, start, len);
         // If we already have partial data, we need to append it to the buffer and use it
         if (receiveBuffer.available() > 0) {
@@ -211,6 +212,9 @@ public class DefaultSftpClient extends AbstractSftpClient {
      * @see                #process(Buffer)
      */
     protected boolean receive(Buffer incoming) throws IOException {
+        System.out.println("■■■■■■■■■■■Client■■ receive - protected ■■■■■■■■■■■■■■■");
+        System.out.println(new String(incoming.array()));
+        System.out.println("");
         int rpos = incoming.rpos();
         int wpos = incoming.wpos();
         ClientSession session = getClientSession();
@@ -244,6 +248,7 @@ public class DefaultSftpClient extends AbstractSftpClient {
      * @throws IOException if failed to process the buffer
      */
     protected void process(Buffer incoming) throws IOException {
+        System.out.println("■■■■■■■■■■■Client■■ process ■■■■■■■■■■■■■■■");
         // create a copy of the buffer in case it is being re-used
         Buffer buffer = new ByteArrayBuffer(incoming.available() + Long.SIZE, false);
         buffer.putBuffer(incoming);
@@ -267,6 +272,7 @@ public class DefaultSftpClient extends AbstractSftpClient {
 
     @Override
     public int send(int cmd, Buffer buffer) throws IOException {
+        System.out.println("■■■■■■■■■■■Client■■ send ■■■■■■■■■■■■■■■");
         int id = cmdId.incrementAndGet();
         int len = buffer.available();
         if (log.isTraceEnabled()) {
@@ -334,11 +340,13 @@ public class DefaultSftpClient extends AbstractSftpClient {
 
     @Override
     public Buffer receive(int id, long idleTimeout) throws IOException {
+        System.out.println("■■■■■■■■■■■Client■■ receive2 - long - Override ■■■■■■■■■■■■■■■");
         return receive(id, Duration.ofMillis(idleTimeout));
     }
 
     @Override
     public Buffer receive(int id, Duration idleTimeout) throws IOException {
+        System.out.println("■■■■■■■■■■■Client■■ receive2 - long - Override - idleTimeout ■■■■■■■■■■■■■■■");
         synchronized (messages) {
             Buffer buffer = messages.remove(id);
             if (buffer != null) {

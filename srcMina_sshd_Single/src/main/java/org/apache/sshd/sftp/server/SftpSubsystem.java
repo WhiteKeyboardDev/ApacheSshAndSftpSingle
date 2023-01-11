@@ -267,6 +267,9 @@ public class SftpSubsystem
 
     @Override
     public int data(ChannelSession channel, byte[] buf, int start, int len) throws IOException {
+        System.out.println("■■■■■■■■■■■Server■■ data ■■■■■■■■■■■■■■■");
+        System.out.println(new String(buf, start, len));
+        System.out.println();
         buffer.compact();
         buffer.putRawBytes(buf, start, len);
         while (buffer.available() >= Integer.BYTES) {
@@ -1001,6 +1004,9 @@ public class SftpSubsystem
 
     @Override
     protected void send(Buffer buffer) throws IOException {
+        System.out.println("■■■■■■■■■■■Server■■ send ■■■■■■■■■■■■■■■");
+        System.out.println(new String(buffer.array()));
+        System.out.println();
         BufferUtils.updateLengthPlaceholder(buffer, 0);
         out.writeBuffer(buffer);
     }
