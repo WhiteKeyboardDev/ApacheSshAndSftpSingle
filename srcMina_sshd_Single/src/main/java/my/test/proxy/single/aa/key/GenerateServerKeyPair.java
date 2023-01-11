@@ -1,4 +1,4 @@
-package my.test.proxy.aa.key;
+package my.test.proxy.single.aa.key;
 
 import org.apache.sshd.common.NamedResource;
 import org.apache.sshd.common.session.SessionContext;

@@ -1,6 +1,6 @@
-package my.test.proxy.server;
+package my.test.proxy.single.server;
 
-import my.test.proxy.aa.key.GenerateServerKeyPair;
+import my.test.proxy.single.aa.key.GenerateServerKeyPair;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.auth.AsyncAuthException;
 import org.apache.sshd.server.auth.password.PasswordAuthenticator;
@@ -9,8 +9,6 @@ import org.apache.sshd.server.session.ServerSession;
 
 import java.io.IOException;
 import java.util.Collections;
-
-import static my.test.proxy.client.SingleSftpClient.singleSftpClient;
 
 public class ProxySftpServer {
     public static void main(String[] args) throws IOException, InterruptedException {

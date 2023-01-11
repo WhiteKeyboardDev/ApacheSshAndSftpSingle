@@ -1,5 +1,6 @@
-package my.test.proxy.server;
+package my.test.proxy.single.server;
 
+import my.test.proxy.single.client.SingleSftpClient;
 import org.apache.sshd.common.util.GenericUtils;
 import org.apache.sshd.common.util.ObjectBuilder;
 import org.apache.sshd.common.util.threads.CloseableExecutorService;
@@ -11,8 +12,6 @@ import org.apache.sshd.sftp.server.*;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-import static my.test.proxy.client.SingleSftpClient.singleSftpClient;
-
 public class SftpSubsystemFactoryExtend extends SftpSubsystemFactory {
 
 
@@ -22,9 +21,9 @@ public class SftpSubsystemFactoryExtend extends SftpSubsystemFactory {
         SftpSubsystemExtend sftpSubsystemExtend = new SftpSubsystemExtend(channel, this);
 
         GenericUtils.forEach(getRegisteredListeners(), sftpSubsystemExtend::addSftpEventListener);
-        sftpSubsystemExtend.setSingleSftpClient(singleSftpClient);
-        singleSftpClient.setSftpSubsystemExtend(sftpSubsystemExtend);
-        singleSftpClient.setServerAuthenticated(true);
+        sftpSubsystemExtend.setSingleSftpClient(SingleSftpClient.singleSftpClient);
+        SingleSftpClient.singleSftpClient.setSftpSubsystemExtend(sftpSubsystemExtend);
+        SingleSftpClient.singleSftpClient.setServerAuthenticated(true);
         return sftpSubsystemExtend;
     }
 

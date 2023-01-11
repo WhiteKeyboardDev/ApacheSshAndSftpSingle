@@ -1,4 +1,4 @@
-package my.test.proxy.aa.channel;
+package my.test.proxy.single.aa.channel;
 
 import org.apache.sshd.common.channel.PtyChannelConfigurationHolder;
 import org.apache.sshd.common.channel.PtyMode;

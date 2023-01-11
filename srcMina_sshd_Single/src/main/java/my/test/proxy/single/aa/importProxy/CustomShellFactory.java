@@ -1,4 +1,4 @@
-package my.test.proxy.aa.importProxy;
+package my.test.proxy.single.aa.importProxy;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -1,6 +1,6 @@
-package my.test.proxy.server;
+package my.test.proxy.single.server;
 
-import my.test.proxy.client.SingleSftpClient;
+import my.test.proxy.single.client.SingleSftpClient;
 import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.buffer.BufferUtils;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;

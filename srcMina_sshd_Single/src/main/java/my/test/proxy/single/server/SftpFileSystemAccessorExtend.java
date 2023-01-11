@@ -1,4 +1,4 @@
-package my.test.proxy.server;
+package my.test.proxy.single.server;
 
 import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.sftp.server.DirectoryHandle;

@@ -1,4 +1,4 @@
-package my.test.proxy.client;
+package my.test.proxy.single.client;
 
 import org.apache.sshd.client.session.ClientSession;
 import org.apache.sshd.sftp.client.SftpErrorDataHandler;

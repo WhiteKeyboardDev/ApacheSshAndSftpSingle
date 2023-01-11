@@ -1,6 +1,6 @@
-package my.test.proxy.client;
+package my.test.proxy.single.client;
 
-import my.test.proxy.server.SftpSubsystemExtend;
+import my.test.proxy.single.server.SftpSubsystemExtend;
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.future.AuthFuture;
 import org.apache.sshd.client.session.ClientSession;

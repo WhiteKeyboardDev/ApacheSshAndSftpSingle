@@ -1,4 +1,4 @@
-package my.test.proxy.client;
+package my.test.proxy.single.client;
 
 import org.apache.sshd.client.channel.ClientChannel;
 import org.apache.sshd.client.session.ClientSession;
@@ -18,8 +18,6 @@ import java.io.InterruptedIOException;
 import java.time.Duration;
 import java.time.Instant;
 
-import static my.test.proxy.client.SingleSftpClient.singleSftpClient;
-
 public class DefaultSftpClientExtend extends DefaultSftpClient {
 
     public DefaultSftpClientExtend(ClientSession clientSession, SftpVersionSelector initialVersionSelector, SftpErrorDataHandler errorDataHandler) throws IOException {
@@ -32,8 +30,8 @@ public class DefaultSftpClientExtend extends DefaultSftpClient {
         System.out.println(new String(buf, start, len));
         System.out.println();
 
-        if (singleSftpClient.getSftpSubsystemExtend() != null && singleSftpClient.isAuthenticationSuccessClientSession && singleSftpClient.serverAuthenticated) {
-            singleSftpClient.getSftpSubsystemExtend().publicSend(buf, start, len);
+        if (SingleSftpClient.singleSftpClient.getSftpSubsystemExtend() != null && SingleSftpClient.singleSftpClient.isAuthenticationSuccessClientSession && SingleSftpClient.singleSftpClient.serverAuthenticated) {
+            SingleSftpClient.singleSftpClient.getSftpSubsystemExtend().publicSend(buf, start, len);
             receiveBuffer.compact();
             return 0;
         } else {
