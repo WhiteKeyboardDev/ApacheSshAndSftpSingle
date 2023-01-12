@@ -255,6 +255,7 @@ public class SftpSubsystem
 
     @Override
     public void start(ChannelSession channel, Environment env) throws IOException {
+        System.out.println("■■■■■■■■■■■Server■■ start ■■■■■■■■■■■■■■■");
         this.env = env;
         try {
             CloseableExecutorService executor = getExecutorService();
@@ -279,6 +280,7 @@ public class SftpSubsystem
                 Buffer b = new ByteArrayBuffer(msglen + Integer.BYTES + Long.SIZE /* a bit extra */, false);
                 b.putUInt(msglen);
                 b.putRawBytes(buffer.array(), buffer.rpos(), msglen);
+                System.out.println("■■■■■■■■■■■Server■■ requests.add() ■■■■■■■■■■■■■■■");
                 requests.add(b);
                 buffer.rpos(rpos + msglen + Integer.BYTES);
             } else {
@@ -298,6 +300,7 @@ public class SftpSubsystem
             LocalWindow localWindow = channel.getLocalWindow();
             while (true) {
                 Buffer buffer = requests.take();
+                    System.out.println("■■■■■■■■■■■Server■■ requests.take() ■■■■■■■■■■■■■■■");
                 if (buffer == CLOSE) {
                     break;
                 }
@@ -527,6 +530,7 @@ public class SftpSubsystem
         }
         if (result) {
             version = Integer.parseInt(proposed);
+            System.out.println("■■■■■■■■■■■Server■■ version select ■■■■■■■■■■■■■■■ : "+ version);
             sendStatus(prepareReply(buffer), id, SftpConstants.SSH_FX_OK, "");
         } else {
             sendStatus(prepareReply(buffer), id, SftpConstants.SSH_FX_FAILURE, "Unsupported version " + proposed);
@@ -536,6 +540,7 @@ public class SftpSubsystem
 
     @Override
     protected void doBlock(int id, String handle, long offset, long length, int mask) throws IOException {
+        System.out.println("■■■■■■■■■■■Server■■ doBlock ■■■■■■■■■■■■■■■");
         Handle p = handles.get(handle);
         ServerSession session = getServerSession();
         if (log.isDebugEnabled()) {
@@ -557,6 +562,7 @@ public class SftpSubsystem
 
     @Override
     protected void doUnblock(int id, String handle, long offset, long length) throws IOException {
+        System.out.println("■■■■■■■■■■■Server■■ doUnblock ■■■■■■■■■■■■■■■");
         Handle p = handles.get(handle);
         ServerSession session = getServerSession();
         if (log.isDebugEnabled()) {
@@ -581,6 +587,7 @@ public class SftpSubsystem
     protected void doCopyData(
             int id, String readHandle, long readOffset, long readLength, String writeHandle, long writeOffset)
             throws IOException {
+        System.out.println("■■■■■■■■■■■Server■■ doCopyData ■■■■■■■■■■■■■■■");
         boolean inPlaceCopy = readHandle.equals(writeHandle);
         Handle rh = handles.get(readHandle);
         Handle wh = inPlaceCopy ? rh : handles.get(writeHandle);
@@ -656,6 +663,7 @@ public class SftpSubsystem
 
     @Override
     protected void doReadDir(Buffer buffer, int id) throws IOException {
+        System.out.println("■■■■■■■■■■■Server■■ doReadDir ■■■■■■■■■■■■■■■");
         String handle = buffer.getString();
         Handle h = handles.get(handle);
         ServerSession session = getServerSession();
@@ -749,6 +757,7 @@ public class SftpSubsystem
 
     @Override
     protected String doOpenDir(int id, String path, Path dir, LinkOption... options) throws IOException {
+        System.out.println("■■■■■■■■■■■Server■■ doOpenDir ■■■■■■■■■■■■■■■");
         SftpPathImpl.withAttributeCache(dir, p -> {
             Boolean status = IoUtils.checkFileExists(p, options);
             if (status == null) {
@@ -784,6 +793,7 @@ public class SftpSubsystem
 
     @Override
     protected void doFSetStat(int id, String handle, Map<String, ?> attrs) throws IOException {
+        System.out.println("■■■■■■■■■■■Server■■ doFSetStat ■■■■■■■■■■■■■■■");
         Handle h = handles.get(handle);
         if (log.isDebugEnabled()) {
             log.debug("doFsetStat({})[id={}] SSH_FXP_FSETSTAT (handle={}[{}], attrs={})",
@@ -817,6 +827,7 @@ public class SftpSubsystem
     protected void doWrite(
             int id, String handle, long offset, int length, byte[] data, int doff, int remaining)
             throws IOException {
+        System.out.println("■■■■■■■■■■■Server■■ doWrite ■■■■■■■■■■■■■■■");
         Handle h = handles.get(handle);
         ServerSession session = getServerSession();
         int maxAllowed = SftpModuleProperties.MAX_WRITEDATA_PACKET_LENGTH.getRequired(session);
@@ -858,6 +869,7 @@ public class SftpSubsystem
     protected int doRead(
             int id, String handle, long offset, int length, byte[] data, int doff, AtomicReference<Boolean> eof)
             throws IOException {
+        System.out.println("■■■■■■■■■■■Server■■ doRead ■■■■■■■■■■■■■■■");
         Handle h = handles.get(handle);
         ServerSession session = getServerSession();
         if (log.isTraceEnabled()) {
@@ -906,6 +918,7 @@ public class SftpSubsystem
     protected String doOpen(
             int id, String path, int pflags, int access, Map<String, Object> attrs)
             throws IOException {
+        System.out.println("■■■■■■■■■■■Server■■ doOpen ■■■■■■■■■■■■■■■");
         ServerSession session = getServerSession();
         if (log.isDebugEnabled()) {
             log.debug("doOpen({})[id={}] SSH_FXP_OPEN (path={}, access=0x{}, pflags=0x{}, attrs={})",
@@ -938,6 +951,7 @@ public class SftpSubsystem
     // we stringify our handles and treat them as such on decoding as well as it is easier to use as a map key
     // NOTE: assume handles map is locked
     protected String generateFileHandle(Path file) throws IOException {
+        System.out.println("■■■■■■■■■■■Server■■ generateFileHandle ■■■■■■■■■■■■■■■");
         // use several rounds in case the file handle size is relatively small so we might get conflicts
         ServerSession session = getServerSession();
         boolean traceEnabled = log.isTraceEnabled();
@@ -965,6 +979,7 @@ public class SftpSubsystem
 
     @Override
     protected void doInit(Buffer buffer, int id) throws IOException {
+        System.out.println("■■■■■■■■■■■Server■■ doInit ■■■■■■■■■■■■■■■");
         ServerSession session = getServerSession();
         if (log.isDebugEnabled()) {
             log.debug("doInit({})[id={}] SSH_FXP_INIT (version={})", session, id, id);
@@ -997,6 +1012,9 @@ public class SftpSubsystem
 
     @Override
     protected Buffer prepareReply(Buffer buffer) {
+        System.out.println("■■■■■■■■■■■Server■■ prepareReply ■■■■■■■■■■■■■■■");
+        System.out.println(new String(buffer.array()));
+        System.out.println();
         buffer.clear();
         buffer.putUInt(0L); // reserve space for actual packet length
         return buffer;
@@ -1013,6 +1031,7 @@ public class SftpSubsystem
 
     @Override
     public void destroy(ChannelSession channel) {
+        System.out.println("■■■■■■■■■■■Server■■ destroy ■■■■■■■■■■■■■■■");
         if (closed.getAndSet(true)) {
             return; // ignore if already closed
         }

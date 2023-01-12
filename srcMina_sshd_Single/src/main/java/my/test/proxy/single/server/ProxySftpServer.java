@@ -21,7 +21,7 @@ public class ProxySftpServer {
         sshd.setHost("192.168.5.171");
 
         // SshServer Port
-        sshd.setPort(2024);
+        sshd.setPort(2022);
 
         // SFTP server setting
         SftpSubsystemFactory sftpSubsystemFactory = new SftpSubsystemFactory.Builder()

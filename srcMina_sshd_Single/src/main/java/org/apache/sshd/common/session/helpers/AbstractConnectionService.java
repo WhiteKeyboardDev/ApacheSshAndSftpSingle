@@ -448,6 +448,9 @@ public abstract class AbstractConnectionService
 
     @Override
     public void process(int cmd, Buffer buffer) throws Exception {
+        System.out.println();
+        System.out.println("■■■■■■■■■■■■■■■■ This 'SshConstants."+SshConstants.getCommandMessageName(cmd)+"'");
+        System.out.println();
         switch (cmd) {
             case SshConstants.SSH_MSG_CHANNEL_OPEN:
                 channelOpen(buffer);
