@@ -1012,9 +1012,8 @@ public class SftpSubsystem
 
     @Override
     protected Buffer prepareReply(Buffer buffer) {
-        System.out.println("■■■■■■■■■■■Server■■ prepareReply ■■■■■■■■■■■■■■■");
-        System.out.println(new String(buffer.array()));
-        System.out.println();
+        System.out.print("■■■■■■■■■■■Server■■ prepareReply ■■■■■■■■■■■■■■■");
+        System.out.println(" ■■■■■■■■■■■Server■■ buffer.clear() ■■■■■■■■■■■■■■■");
         buffer.clear();
         buffer.putUInt(0L); // reserve space for actual packet length
         return buffer;
@@ -1024,7 +1023,7 @@ public class SftpSubsystem
     protected void send(Buffer buffer) throws IOException {
         System.out.println("■■■■■■■■■■■Server■■ send ■■■■■■■■■■■■■■■");
         System.out.println(new String(buffer.array()));
-        System.out.println();
+        System.out.println("");
         BufferUtils.updateLengthPlaceholder(buffer, 0);
         out.writeBuffer(buffer);
     }
