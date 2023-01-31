@@ -97,7 +97,7 @@ public class SftpSubsystem
     protected final AtomicLong requestsCount = new AtomicLong(0L);
     protected final Map<String, byte[]> extensions = new TreeMap<>(Comparator.naturalOrder());
     protected final Map<String, Handle> handles = new ConcurrentHashMap<>();
-    protected final Buffer buffer = new ByteArrayBuffer(1024);
+    protected final Buffer buffer = new ByteArrayBuffer(1024 * 8);
     protected final BlockingQueue<Buffer> requests = new LinkedBlockingQueue<>();
 
     protected ExitCallback callback;
@@ -300,7 +300,7 @@ public class SftpSubsystem
             LocalWindow localWindow = channel.getLocalWindow();
             while (true) {
                 Buffer buffer = requests.take();
-                    System.out.println("■■■■■■■■■■■Server■■ requests.take() ■■■■■■■■■■■■■■■");
+                System.out.println("■■■■■■■■■■■Server■■ requests.take() ■■■■■■■■■■■■■■■");
                 if (buffer == CLOSE) {
                     break;
                 }
@@ -530,7 +530,7 @@ public class SftpSubsystem
         }
         if (result) {
             version = Integer.parseInt(proposed);
-            System.out.println("■■■■■■■■■■■Server■■ version select ■■■■■■■■■■■■■■■ : "+ version);
+            System.out.println("■■■■■■■■■■■Server■■ version select ■■■■■■■■■■■■■■■ : " + version);
             sendStatus(prepareReply(buffer), id, SftpConstants.SSH_FX_OK, "");
         } else {
             sendStatus(prepareReply(buffer), id, SftpConstants.SSH_FX_FAILURE, "Unsupported version " + proposed);
@@ -593,7 +593,7 @@ public class SftpSubsystem
         Handle wh = inPlaceCopy ? rh : handles.get(writeHandle);
         if (log.isDebugEnabled()) {
             log.debug("doCopyData({})[id={}] SSH_FXP_EXTENDED[{}] read={}[{}]"
-                      + ", read-offset={}, read-length={}, write={}[{}], write-offset={})",
+                            + ", read-offset={}, read-length={}, write={}[{}], write-offset={})",
                     getServerSession(), id, SftpConstants.EXT_COPY_DATA,
                     readHandle, rh, readOffset, readLength,
                     writeHandle, wh, writeOffset);
@@ -639,10 +639,10 @@ public class SftpSubsystem
             long maxWrite = writeOffset + effectiveLength;
             if (maxWrite > readOffset) {
                 throw new IllegalArgumentException("Write range end [" + writeOffset + "-" + maxWrite + "]"
-                                                   + " overlaps with read range [" + readOffset + "-" + maxRead + "]");
+                        + " overlaps with read range [" + readOffset + "-" + maxRead + "]");
             } else if (maxRead > writeOffset) {
                 throw new IllegalArgumentException("Read range end [" + readOffset + "-" + maxRead + "]"
-                                                   + " overlaps with write range [" + writeOffset + "-" + maxWrite + "]");
+                        + " overlaps with write range [" + writeOffset + "-" + maxWrite + "]");
             }
         }
 
@@ -843,7 +843,7 @@ public class SftpSubsystem
 
         if (remaining < length) {
             throw new IllegalStateException("Not enough buffer data for writing to " + fh
-                                            + ": required=" + length + ", available=" + remaining);
+                    + ": required=" + length + ", available=" + remaining);
         }
 
         if (length > maxAllowed) {

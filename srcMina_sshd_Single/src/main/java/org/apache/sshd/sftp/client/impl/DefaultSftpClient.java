@@ -177,6 +177,8 @@ public class DefaultSftpClient extends AbstractSftpClient {
      */
     protected int data(byte[] buf, int start, int len) throws IOException {
         System.out.println("■■■■■■■■■■■Client■■ data ■■■■■■■■■■■■■■■");
+        System.out.println(new String(buf, start, len));
+        System.out.println();
         Buffer incoming = new ByteArrayBuffer(buf, start, len);
         // If we already have partial data, we need to append it to the buffer and use it
         if (receiveBuffer.available() > 0) {
@@ -213,7 +215,6 @@ public class DefaultSftpClient extends AbstractSftpClient {
      */
     protected boolean receive(Buffer incoming) throws IOException {
         System.out.println("■■■■■■■■■■■Client■■ receive - protected ■■■■■■■■■■■■■■■");
-        System.out.println(new String(incoming.array()));
         System.out.println("");
         int rpos = incoming.rpos();
         int wpos = incoming.wpos();
@@ -273,6 +274,7 @@ public class DefaultSftpClient extends AbstractSftpClient {
     @Override
     public int send(int cmd, Buffer buffer) throws IOException {
         System.out.println("■■■■■■■■■■■Client■■ send ■■■■■■■■■■■■■■■");
+        System.out.println(new String(buffer.array()));
         int id = cmdId.incrementAndGet();
         int len = buffer.available();
         if (log.isTraceEnabled()) {
